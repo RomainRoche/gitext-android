@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "io.gitrad.sample-mergeDebugResources-47:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/romain/.gradle/caches/transforms-4/951ae2651e13ce0a337361c720810846/transformed/appcompat-1.7.0/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}
