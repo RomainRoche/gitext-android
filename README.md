@@ -4,19 +4,23 @@ OTA translation SDK for Android. Downloads translations from the Gitrad server, 
 
 ## Installation
 
-Add the SDK module to your project or publish it to your local Maven repository. In `settings.gradle.kts`:
+Add JitPack to your repository list. In `settings.gradle.kts`:
 
 ```kotlin
-include(":sdk")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
 ```
 
 In your app's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation(project(":sdk"))
-    // or, once published:
-    // implementation("io.gitrad:sdk-android:1.0.0")
+    implementation("com.github.RomainRoche.gitrad-android:sdk:1.0.0")
 }
 ```
 
