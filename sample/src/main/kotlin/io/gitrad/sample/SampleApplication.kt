@@ -14,8 +14,8 @@ class SampleApplication : Application() {
 
         Gitrad.configure(
             context = this,
-            apiKey = "***REMOVED-SECRET***",
-            baseUrl = "https://gitrad--git18n.europe-west4.hosted.app",
+            apiKey = BuildConfig.GITRAD_API_KEY,
+            baseUrl = BuildConfig.GITRAD_BASE_URL,
             maxCacheAge = 3600L,
         )
 

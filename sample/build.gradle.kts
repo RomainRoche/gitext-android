@@ -24,7 +24,11 @@ android {
         val apiKey = localProps.getProperty("GITRAD_API_KEY")
             ?: project.findProperty("GITRAD_API_KEY") as String?
             ?: ""
+        val baseUrl = localProps.getProperty("GITRAD_BASE_URL")
+            ?: project.findProperty("GITRAD_BASE_URL") as String?
+            ?: ""
         buildConfigField("String", "GITRAD_API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "GITRAD_BASE_URL", "\"$baseUrl\"")
     }
 
     buildFeatures {

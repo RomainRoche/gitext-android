@@ -25,6 +25,7 @@ object Gitrad {
     private const val SERVER_CACHE_MAX_AGE_MS = 60_000L
 
     private val lock = ReentrantLock()
+    private var _configEpoch = 0
     private var _config: GitradConfig? = null
     private var _repository: TranslationRepository? = null
     private var _loadInitial: LoadInitialTranslationsUseCase? = null
@@ -51,16 +52,25 @@ object Gitrad {
         val repo = TranslationRepositoryFactory.make(context.applicationContext, config.apiKey, config.baseUrl)
         val loadInitial = LoadInitialTranslationsUseCase(repo)
         val fetch = FetchTranslationsUseCase(repo)
+        val epoch: Int
 
         lock.withLock {
+            epoch = ++_configEpoch
             _config = config
             _repository = repo
             _loadInitial = loadInitial
             _fetch = fetch
+            _payload = TranslationPayload.empty
+            _lastFetchTime = null
         }
 
+        // I/O happens outside the lock so it doesn't block callers reading _payload.
+        // The epoch check below ensures a second configure() call invalidates this result.
         val (payload, source) = loadInitial.execute()
-        lock.withLock { _payload = payload }
+
+        lock.withLock {
+            if (_configEpoch == epoch) _payload = payload
+        }
 
         when (source) {
             InitialPayloadSource.CACHE -> emit(GitradEvent.CacheHit)
@@ -103,7 +113,10 @@ object Gitrad {
 
     private suspend fun fetchAlways() {
         val (fetch, lastFetch) = lock.withLock { _fetch to _lastFetchTime }
-        fetch ?: return
+        if (fetch == null) {
+            emit(GitradEvent.FetchFailed(GitradError.NotConfigured))
+            return
+        }
 
         if (lastFetch != null && System.currentTimeMillis() - lastFetch < SERVER_CACHE_MAX_AGE_MS) return
 
@@ -141,7 +154,7 @@ object Gitrad {
 
     private fun emit(event: GitradEvent) {
         val handler = lock.withLock { _eventHandler }
-        handler?.invoke(event)
+        if (handler != null) runCatching { handler(event) }
     }
 
     private fun currentLanguage(): String {
