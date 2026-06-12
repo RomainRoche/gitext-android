@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.compose.runtime)
     implementation(libs.compose.ui)
 
+    compileOnly(libs.work.runtime)
+
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
 }
