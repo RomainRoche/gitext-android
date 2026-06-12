@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.gitrad.sdk"
+    namespace = "io.gitext.sdk"
     compileSdk = 35
 
     defaultConfig {
@@ -43,9 +43,9 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = "io.gitrad"
+                groupId = "io.gitext"
                 artifactId = "sdk-android"
-                version = project.property("gitrad.sdk.version") as String
+                version = project.property("gitext.sdk.version") as String
             }
         }
     }
