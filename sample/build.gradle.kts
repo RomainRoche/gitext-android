@@ -6,29 +6,29 @@ plugins {
 }
 
 android {
-    namespace = "io.gitrad.sample"
+    namespace = "io.gitext.sample"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.gitrad.sample"
+        applicationId = "io.gitext.sample"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
-        // Reads from local.properties or falls back to -PGITRAD_API_KEY gradle flag
+        // Reads from local.properties or falls back to -PGITEXT_API_KEY gradle flag
         val localProps = Properties().also { props ->
             rootProject.file("local.properties").takeIf { it.exists() }
                 ?.inputStream()?.use { stream -> props.load(stream) }
         }
-        val apiKey = localProps.getProperty("GITRAD_API_KEY")
-            ?: project.findProperty("GITRAD_API_KEY") as String?
+        val apiKey = localProps.getProperty("GITEXT_API_KEY")
+            ?: project.findProperty("GITEXT_API_KEY") as String?
             ?: ""
-        val baseUrl = localProps.getProperty("GITRAD_BASE_URL")
-            ?: project.findProperty("GITRAD_BASE_URL") as String?
+        val baseUrl = localProps.getProperty("GITEXT_BASE_URL")
+            ?: project.findProperty("GITEXT_BASE_URL") as String?
             ?: ""
-        buildConfigField("String", "GITRAD_API_KEY", "\"$apiKey\"")
-        buildConfigField("String", "GITRAD_BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "GITEXT_API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "GITEXT_BASE_URL", "\"$baseUrl\"")
     }
 
     buildFeatures {

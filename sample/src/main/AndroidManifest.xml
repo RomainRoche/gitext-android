@@ -5,7 +5,7 @@
 
     <application
         android:name=".SampleApplication"
-        android:label="Gitrad Sample"
+        android:label="Gitext Sample"
         android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".MainActivity"
