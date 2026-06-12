@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "gitrad-android"
+rootProject.name = "gitext-android"
 include(":sdk")
 include(":sample")
