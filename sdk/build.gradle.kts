@@ -45,7 +45,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "io.gitrad"
                 artifactId = "sdk-android"
-                version = "1.0.0"
+                version = project.property("gitrad.sdk.version") as String
             }
         }
     }

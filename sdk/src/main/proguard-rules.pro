@@ -20,10 +20,12 @@
 # Subclasses are instantiated inside the SDK, so R8 may consider them
 # unreachable from the app side and remove them — breaking app-side
 # when() expressions and instanceof checks.
+# Constructors are kept explicitly so R8 does not strip them from data-class
+# subclasses (RateLimited, NetworkError, ParseError, FetchSucceeded, FetchFailed).
 -keep class io.gitrad.sdk.sdk.GitradError { *; }
--keep class io.gitrad.sdk.sdk.GitradError$* { *; }
+-keep class io.gitrad.sdk.sdk.GitradError$* { *; <init>(...); }
 -keep class io.gitrad.sdk.sdk.GitradEvent { *; }
--keep class io.gitrad.sdk.sdk.GitradEvent$* { *; }
+-keep class io.gitrad.sdk.sdk.GitradEvent$* { *; <init>(...); }
 
 # Top-level Compose integration functions (rememberGitradString,
 # rememberGitradStrings) compile to static methods on GitradKt.
