@@ -28,3 +28,6 @@
 # Top-level Compose integration functions (rememberGitradString,
 # rememberGitradStrings) compile to static methods on GitradKt.
 -keep class io.gitrad.sdk.sdk.GitradKt { public *; }
+
+# WorkManager instantiates GitradSyncWorker by class name via reflection.
+-keep class io.gitrad.sdk.sdk.GitradSyncWorker { *; }

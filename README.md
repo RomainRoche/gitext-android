@@ -110,19 +110,24 @@ override fun onResume() {
 
 ## Background refresh with WorkManager
 
-```kotlin
-val work = PeriodicWorkRequestBuilder<GitradRefreshWorker>(1, TimeUnit.HOURS)
-    .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-    .build()
-WorkManager.getInstance(context)
-    .enqueueUniquePeriodicWork("gitrad_refresh", ExistingPeriodicWorkPolicy.KEEP, work)
+The SDK ships a `GitradSyncWorker` ready to use. Add WorkManager to your app's dependencies:
 
-class GitradRefreshWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
-    override suspend fun doWork(): Result {
-        Gitrad.refresh()
-        return Result.success()
-    }
-}
+```kotlin
+implementation("androidx.work:work-runtime-ktx:2.9.0")
+```
+
+Then schedule periodic sync in `Application.onCreate()` (after `Gitrad.configure()`):
+
+```kotlin
+GitradSyncWorker.schedule(context, intervalHours = 12)
+```
+
+The worker runs only when the device has a network connection, and retries automatically on transient failures. Auth failures (`Unauthorized`, `SubscriptionInactive`) are treated as permanent and will not retry.
+
+To cancel the scheduled sync:
+
+```kotlin
+GitradSyncWorker.cancel(context)
 ```
 
 ## Observability
