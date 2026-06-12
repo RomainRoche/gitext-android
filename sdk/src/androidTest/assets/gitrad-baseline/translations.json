@@ -1,0 +1,10 @@
+{
+  "_namespaces": ["app"],
+  "en": {
+    "greeting.hello": "Hello",
+    "items.count": {"one": "%d item", "other": "%d items"}
+  },
+  "fr": {
+    "greeting.hello": "Bonjour"
+  }
+}
